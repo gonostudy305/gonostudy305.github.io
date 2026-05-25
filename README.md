@@ -1,0 +1,1 @@
+# gonostudy305.github.io
