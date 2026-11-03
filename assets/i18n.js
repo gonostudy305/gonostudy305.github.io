@@ -3,6 +3,9 @@
  * High-performance, Zero-Hydration-Mismatch DOM translation engine with URL sync and MutationObserver.
  */
 (function() {
+  const VN_FLAG_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="16" height="11" style="border-radius:2px;display:inline-block;vertical-align:middle;box-shadow:0 0 1px rgba(0,0,0,0.5)"><rect width="900" height="600" fill="#da251d"/><polygon fill="#ff0" points="450,150 491,277 625,277 516,356 558,483 450,404 342,483 384,356 275,277 409,277"/></svg>';
+  const EN_FLAG_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" width="16" height="11" style="border-radius:2px;display:inline-block;vertical-align:middle;box-shadow:0 0 1px rgba(0,0,0,0.5)"><clipPath id="uk-flag-clip"><path d="M0,0 v30 h60 v-30 z"/></clipPath><g clip-path="url(#uk-flag-clip)"><path d="M0,0 v30 h60 v-30 z" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="4"/><path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/></g></svg>';
+
   const DICT = {
     vi: {
       "🔒 Confidential NDA — Live Demo Available on Request": "🔒 Dự án Bảo mật NDA — Sẵn sàng Demo theo yêu cầu",
@@ -49,29 +52,27 @@
 
       // Showcase
       "02 / Showcase": "02 / Dự án Tiêu biểu",
-      "Systems engineered for scale and observability.": "Hệ thống được thiết kế cho quy mô và khả năng quan sát.",
-      "Real architectures, battle-tested codebases and reproducible metrics.": "Kiến trúc thực chiến, mã nguồn chuẩn mực và số liệu kiểm chứng.",
-      "Large-scale F&B sentiment intelligence engine. Real-time aspect extraction with fine-tuned PhoBERT, dual-worker NGINX load balancing and fault-tolerant mock fallback.":
-        "Hệ thống khai thác cảm xúc F&B quy mô lớn với PhoBERT, NGINX cân bằng tải 2 worker và kiến trúc microservices 4 tầng chịu lỗi cao.",
-      "Autonomous agent control plane. Deterministic event loop, multi-agent coordination, OpenTelemetry distributed tracing and resilient state machines.":
-        "Hệ điều hành Agent AI với vòng lặp sự kiện tiền định (deterministic event loop), telemetry tracing và quản lý trạng thái phân tán.",
-      "Interactive 3D digital twin for smart-home villa. Real-time lighting physics (WebGL shaders), multi-zone device state synchronization and bidirectional IoT controls.":
-        "Bản sao số không gian 3D tương tác mô phỏng quang học thời gian thực (WebGL Shaders) và điều khiển IoT hai chiều cho dinh thự thông minh.",
-      "Cross-platform healthcare management ecosystem. Modern web portal and native Android experience, honoring UEL academic roots with transparent architecture.":
-        "Hệ sinh thái y tế số đa nền tảng kết hợp Web Portal hiện đại và ứng dụng Android gốc, minh bạch nguồn gốc đồ án tốt nghiệp UEL.",
-      "Public engineering credential audit platform. Verifies portfolio metrics against reproducible codebase evidence and transparent peer reviews.":
-        "Nền tảng kiểm chứng hồ sơ năng lực và minh chứng số liệu kỹ thuật công khai, gắn kết trực tiếp mã nguồn GitHub.",
-      "View Code": "Xem Mã nguồn",
-      "Live Demo": "Bản Trực tiếp",
+      "Flagship systems, shipped to production.": "Hệ thống tiêu biểu, đã triển khai thực tế.",
+      "Proof-of-work over promises. Every card links to code or a live deployment.": "Chứng minh qua sản phẩm thực tế. Mỗi dự án đều gắn liền mã nguồn hoặc bản thử nghiệm.",
+      "View Architecture & Code": "Xem Kiến trúc & Mã nguồn",
+      "Live Web Demo": "Xem Bản Web Thực tế",
+      "Android Showcase": "Bản Trình diễn Android",
+      "Explore Agent OS": "Khám phá Hệ điều hành Agent",
+
+      // Descriptions
+      "High-throughput sentiment analytics platform mining 6,350+ customer reviews for retail & e-commerce. NGINX load-balanced PhoBERT inference workers with real-time customer voice insights and automated alerting.":
+        "Nền tảng phân tích sắc thái phản hồi thông lượng cao xử lý 6,350+ đánh giá cho bán lẻ & thương mại điện tử. Hệ thống NGINX cân bằng tải worker PhoBERT mang lại insight tiếng nói khách hàng tức thời.",
+      "Spatial digital twin simulating real-time smart-home lighting physics (multi-pass additive shaders) and bidirectional IoT controls, accelerating high-end villa sales cycles.":
+        "Bản sao số không gian mô phỏng quang học ánh sáng nhà thông minh thời gian thực (multi-pass additive WebGL shaders) và điều khiển IoT hai chiều, rút ngắn chu kỳ bán hàng biệt thự cao cấp.",
+      "End-to-end eco-resort booking platform with real-time personalized room-recommendation chatbot and localized conversion funnels across Web and Mobile.":
+        "Hệ thống đặt phòng nghỉ dưỡng toàn diện tích hợp chatbot gợi ý phòng cá nhân hóa theo thời gian thực và phễu chuyển đổi tối ưu trên cả Web và Di động.",
+      "Unified control plane coordinating skills, memory persistence and drift auditing across multi-agent AI ecosystems, automating marketing & development workflows.":
+        "Bảng điều phối hợp nhất quản lý kỹ năng (skills), bộ nhớ lưu trữ và kiểm toán độ lệch cho hệ sinh thái đa Agent, tự động hóa toàn diện quy trình tiếp thị & phát triển phần mềm.",
 
       // Architecture
-      "03 / Architecture": "03 / Kiến trúc",
-      "Deep-dive into the system design.": "Phân tích sâu kiến trúc hệ thống.",
-      "Deterministic over magical — every hop is observable.": "Ưu tiên tính tiền định hơn huyền bí — mọi bước truyền tải đều quan sát được.",
-      "Microservices Topology": "Cấu trúc Microservices",
-      "Failure-First Resiliency": "Khả năng Phục hồi Failure-First",
-      "Data Pipeline & pgvector": "Đường ống Dữ liệu & pgvector",
-      "Data Pipeline &amp; pgvector": "Đường ống Dữ liệu &amp; pgvector",
+      "03 / Architecture": "03 / Kiến trúc Hệ thống",
+      "Deep-dive into the system design.": "Phân tích sâu kiến trúc thiết kế.",
+      "Deterministic over magical — every hop is observable.": "Ưu tiên tính tiền định hơn sự huyền bí — mọi bước luân chuyển đều quan sát được.",
 
       // Principles
       "04 / Principles": "04 / Triết lý Kỹ thuật",
@@ -81,12 +82,16 @@
       "Information Systems & E-Commerce": "Hệ thống Thông tin & Thương mại Điện tử",
       "Information Systems &amp; E-Commerce": "Hệ thống Thông tin &amp; Thương mại Điện tử",
       "MarTech Executive · AKIA Smart Home": "Chuyên viên MarTech · AKIA Smart Home",
-      "AI automation, DAM media pipelines, multi-channel touchpoints": "Tự động hóa AI, đường ống media DAM, điểm chạm đa kênh",
+      "DAM media pipelines (Cloudflare R2 + pgvector), AI Vision automated tagging, and multi-channel touchpoints.":
+        "Đường ống media DAM (Cloudflare R2 + pgvector), gắn nhãn AI Vision tự động và quản lý điểm chạm đa kênh.",
 
       // Contact
       "05 / Contact": "05 / Liên hệ",
       "Let's build resilient systems together.": "Cùng nhau xây dựng các hệ thống bền bỉ.",
-      "Let&#x27;s build resilient systems together.": "Cùng nhau xây dựng các hệ thống bền bỉ."
+      "Let&#x27;s build resilient systems together.": "Cùng nhau xây dựng các hệ thống bền bỉ.",
+      "Send message": "Gửi tin nhắn",
+      "What are you building?": "Bạn đang ấp ủ dự án gì?",
+      "Your name": "Họ và tên của bạn"
     }
   };
 
@@ -96,7 +101,6 @@
     DICT.en[viVal] = enKey;
   }
 
-  // Detect language: URL ?lang= > localStorage > navigator.language
   function detectLang() {
     try {
       const params = new URLSearchParams(window.location.search);
@@ -115,39 +119,37 @@
 
   let currentLang = detectLang();
 
-  // Helper to translate H1 with styled inner gradient
   function translateH1(lang) {
     const h1 = document.querySelector('h1');
     if (!h1) return;
     if (lang === 'vi') {
-      h1.innerHTML = 'Thiết kế Pipeline <span class="text-gradient">AI Ứng dụng</span> &amp; Hệ thống Dữ liệu Phân tán.';
+      h1.innerHTML = 'Thiết kế Hệ thống <span class="text-gradient">MarTech &amp; AI Ứng dụng</span> cho Tăng trưởng.';
     } else {
-      h1.innerHTML = 'Architecting <span class="text-gradient">Applied AI Pipelines</span> &amp; Distributed Data Systems.';
+      h1.innerHTML = 'Architecting <span class="text-gradient">MarTech &amp; Applied AI</span> Systems for Measurable Growth.';
     }
   }
 
-  // Translate all matching text in DOM
   function applyTranslations(lang) {
     document.documentElement.setAttribute('lang', lang);
     translateH1(lang);
 
     const mapping = (lang === 'vi') ? DICT.vi : DICT.en;
 
-    // Fast selective query for elements that contain translatable text
-    const selectors = 'p, a, button, blockquote, h2, h3, span, div';
-    const elements = document.querySelectorAll(selectors);
-
-    elements.forEach(el => {
-      // Only process elements with direct text children or simple wrappers
-      if (el.children.length === 0 || (el.children.length === 1 && el.firstElementChild.tagName === 'SPAN')) {
-        const trimmed = el.textContent.trim();
-        if (mapping[trimmed]) {
-          el.textContent = mapping[trimmed];
-        }
+    // Use TreeWalker for safe text-only node replacement (no breaking icons or spans)
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+    let node;
+    const toUpdate = [];
+    while ((node = walker.nextNode())) {
+      const val = node.nodeValue.trim();
+      if (val && mapping[val]) {
+        toUpdate.push({ node, original: val, replacement: mapping[val] });
       }
+    }
+
+    toUpdate.forEach(item => {
+      item.node.nodeValue = item.node.nodeValue.replace(item.original, item.replacement);
     });
 
-    // Update switcher buttons UI
     updateSwitcherButtons(lang);
   }
 
@@ -157,21 +159,27 @@
     if (btn) {
       const flag = btn.querySelector('.lang-flag');
       const text = btn.querySelector('.lang-text');
-      if (flag) flag.textContent = (lang === 'vi') ? '🇻🇳' : '🇬🇧';
-      if (text) text.textContent = (lang === 'vi') ? 'VI' : 'EN';
+      if (flag) {
+        flag.innerHTML = (lang === 'vi') ? VN_FLAG_SVG : EN_FLAG_SVG;
+      }
+      if (text) {
+        text.textContent = (lang === 'vi') ? 'VI' : 'EN';
+      }
       btn.title = (lang === 'vi') ? 'Chuyển sang Tiếng Anh (Ctrl+Shift+V)' : 'Switch to Vietnamese (Ctrl+Shift+V)';
     }
 
     // Floating pill button
     const floatIcon = document.getElementById('floating-lang-icon');
     const floatLabel = document.getElementById('floating-lang-label');
-    if (floatIcon && floatLabel) {
-      floatIcon.textContent = (lang === 'vi') ? '🇻🇳' : '🇬🇧';
+    if (floatIcon) {
+      floatIcon.innerHTML = (lang === 'vi') ? VN_FLAG_SVG : EN_FLAG_SVG;
+    }
+    if (floatLabel) {
       floatLabel.textContent = (lang === 'vi') ? 'Tiếng Việt' : 'English';
     }
   }
 
-  // Public API
+  // Public APIs
   window.getGonoLang = function() {
     return currentLang;
   };
@@ -181,12 +189,10 @@
     currentLang = lang;
     try {
       localStorage.setItem('gono_lang', lang);
-      // Sync URL query without page reload
       const url = new URL(window.location);
       url.searchParams.set('lang', lang);
-      window.history.replaceState({}, '', url);
+      window.history.replaceState({}, '', url.toString());
     } catch(e) {}
-
     applyTranslations(lang);
   };
 
@@ -204,41 +210,39 @@
     }
   });
 
-  // Apply on DOMContentLoaded and on window.load (post-hydration)
+  // Post-hydration initialization
   function initI18n() {
+    updateSwitcherButtons(currentLang);
     if (currentLang === 'vi') {
       applyTranslations('vi');
-    } else {
-      updateSwitcherButtons('en');
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initI18n);
-  } else {
+  if (document.readyState === 'complete') {
     initI18n();
+  } else {
+    window.addEventListener('load', function() {
+      // Delay slightly so React finishes mount first
+      setTimeout(initI18n, 150);
+      setTimeout(initI18n, 600);
+    });
   }
 
-  window.addEventListener('load', function() {
-    initI18n();
-    // Second pass after React TanStack hydration completes
-    setTimeout(initI18n, 200);
-    setTimeout(initI18n, 800);
-  });
-
-  // Lightweight MutationObserver to translate dynamically rendered elements (like tabs or modals)
+  // Observe dynamically loaded text (e.g. tabs or dynamic states)
   let timeoutId = null;
   const observer = new MutationObserver(function() {
     if (currentLang === 'vi') {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(function() {
         applyTranslations('vi');
-      }, 100);
+      }, 150);
     }
   });
 
-  window.addEventListener('DOMContentLoaded', function() {
+  window.addEventListener('load', function() {
     const mainEl = document.querySelector('main') || document.body;
-    observer.observe(mainEl, { childList: true, subtree: true });
+    if (mainEl) {
+      observer.observe(mainEl, { childList: true, subtree: true, characterData: false });
+    }
   });
 })();
