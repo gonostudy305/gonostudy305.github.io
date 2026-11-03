@@ -5,6 +5,12 @@
 (function() {
   const DICT = {
     vi: {
+      "🔒 Confidential NDA — Live Demo Available on Request": "🔒 Dự án Bảo mật NDA — Sẵn sàng Demo theo yêu cầu",
+      "PL-Insight — Customer Feedback & Sentiment Intelligence": "PL-Insight — Phân tích Phản hồi Khách hàng & Sắc thái Thương hiệu",
+      "AKIA Spatial Digital Twin — Neoclassic Villa Living Lab": "AKIA Spatial Digital Twin — Mô phỏng Không gian Biệt thự",
+      "Panacea — Hospitality Booking Funnel & AI Chatbot": "Panacea — Phễu Đặt phòng Nghỉ dưỡng & AI Chatbot",
+      "OmniAgent-OS — Agentic AI Operations & Workflow Automation": "OmniAgent-OS — Điều phối AI Agent & Tự động hóa Vận hành",
+
       // Nav
       "Systems": "Hệ thống",
       "Interactive NLP": "Mô phỏng NLP",
@@ -14,11 +20,11 @@
       "Get in Touch": "Kết nối",
 
       // Hero
-      "Available for AI & Systems Engineering": "Sẵn sàng cho cơ hội Kỹ sư AI & Hệ thống",
-      "Available for AI &amp; Systems Engineering": "Sẵn sàng cho cơ hội Kỹ sư AI &amp; Hệ thống",
-      "Architecting Applied AI Pipelines & Distributed Data Systems.": "Thiết kế Pipeline AI Ứng dụng & Hệ thống Dữ liệu Phân tán.",
-      "I bridge the gap between machine learning research and fault-tolerant production software — transformer NLP inference, vector retrieval, and scalable MarTech engines.":
-        "Cầu nối giữa nghiên cứu Học máy và phần mềm production chịu lỗi cao — tối ưu suy luận NLP Transformer, truy xuất vector và kiến trúc MarTech quy mô lớn.",
+      "Available for MarTech & Applied AI Roles": "Sẵn sàng cho cơ hội MarTech & Applied AI",
+      "Available for MarTech &amp; Applied AI Roles": "Sẵn sàng cho cơ hội MarTech &amp; Applied AI",
+      "Architecting MarTech & Applied AI Systems for Measurable Growth.": "Thiết kế Hệ thống MarTech & AI Ứng dụng thúc đẩy Tăng trưởng.",
+      "I bridge the gap between AI engineering and marketing growth — turning transformer NLP, 3D spatial twins, and automated data pipelines into measurable business revenue.":
+        "Cầu nối giữa kỹ thuật AI và tăng trưởng tiếp thị số — biến NLP Transformer, Digital Twin 3D và pipeline dữ liệu tự động thành doanh thu thực tế.",
       "View Systems": "Xem Hệ thống",
       "Open Command Center": "Mở Bảng điều khiển",
 
