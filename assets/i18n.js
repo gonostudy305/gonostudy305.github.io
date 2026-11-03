@@ -129,28 +129,65 @@
     }
   }
 
-  function applyTranslations(lang) {
-    document.documentElement.setAttribute('lang', lang);
-    translateH1(lang);
+  let isTranslating = false;
+  let timeoutId = null;
+  let observer = null;
 
-    const mapping = (lang === 'vi') ? DICT.vi : DICT.en;
-
-    // Use TreeWalker for safe text-only node replacement (no breaking icons or spans)
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-    let node;
-    const toUpdate = [];
-    while ((node = walker.nextNode())) {
-      const val = node.nodeValue.trim();
-      if (val && mapping[val]) {
-        toUpdate.push({ node, original: val, replacement: mapping[val] });
-      }
+  function reconnectObserver() {
+    if (!observer) return;
+    if (currentLang !== 'vi') {
+      observer.disconnect();
+      return;
     }
+    const mainEl = document.querySelector('main') || document.body;
+    if (mainEl) {
+      observer.disconnect();
+      observer.observe(mainEl, { childList: true, subtree: true, characterData: false });
+    }
+  }
 
-    toUpdate.forEach(item => {
-      item.node.nodeValue = item.node.nodeValue.replace(item.original, item.replacement);
-    });
+  observer = new MutationObserver(function() {
+    if (isTranslating || currentLang !== 'vi') return;
+    if (timeoutId) clearTimeout(timeoutId);
+    timeoutId = setTimeout(function() {
+      timeoutId = null;
+      if (!isTranslating && currentLang === 'vi') {
+        applyTranslations('vi');
+      }
+    }, 200);
+  });
 
-    updateSwitcherButtons(lang);
+  function applyTranslations(lang) {
+    if (isTranslating) return;
+    isTranslating = true;
+    if (observer) observer.disconnect();
+
+    try {
+      document.documentElement.setAttribute('lang', lang);
+      translateH1(lang);
+
+      const mapping = (lang === 'vi') ? DICT.vi : DICT.en;
+
+      // Use TreeWalker for safe text-only node replacement (no breaking icons or spans)
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+      let node;
+      const toUpdate = [];
+      while ((node = walker.nextNode())) {
+        const val = node.nodeValue.trim();
+        if (val && mapping[val]) {
+          toUpdate.push({ node, original: val, replacement: mapping[val] });
+        }
+      }
+
+      toUpdate.forEach(item => {
+        item.node.nodeValue = item.node.nodeValue.replace(item.original, item.replacement);
+      });
+
+      updateSwitcherButtons(lang);
+    } finally {
+      isTranslating = false;
+      reconnectObserver();
+    }
   }
 
   function updateSwitcherButtons(lang) {
@@ -186,6 +223,10 @@
 
   window.setGonoLang = function(lang) {
     if (lang !== 'vi' && lang !== 'en') return;
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+    }
     currentLang = lang;
     try {
       localStorage.setItem('gono_lang', lang);
@@ -196,7 +237,11 @@
     applyTranslations(lang);
   };
 
+  let lastToggleTime = 0;
   window.toggleGonoLang = function() {
+    const now = Date.now();
+    if (now - lastToggleTime < 300) return currentLang;
+    lastToggleTime = now;
     const nextLang = (currentLang === 'vi') ? 'en' : 'vi';
     window.setGonoLang(nextLang);
     return nextLang;
@@ -216,33 +261,15 @@
     if (currentLang === 'vi') {
       applyTranslations('vi');
     }
+    reconnectObserver();
   }
 
   if (document.readyState === 'complete') {
     initI18n();
   } else {
     window.addEventListener('load', function() {
-      // Delay slightly so React finishes mount first
-      setTimeout(initI18n, 150);
-      setTimeout(initI18n, 600);
+      // Delay slightly so React finishes initial mount first
+      setTimeout(initI18n, 120);
     });
   }
-
-  // Observe dynamically loaded text (e.g. tabs or dynamic states)
-  let timeoutId = null;
-  const observer = new MutationObserver(function() {
-    if (currentLang === 'vi') {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(function() {
-        applyTranslations('vi');
-      }, 150);
-    }
-  });
-
-  window.addEventListener('load', function() {
-    const mainEl = document.querySelector('main') || document.body;
-    if (mainEl) {
-      observer.observe(mainEl, { childList: true, subtree: true, characterData: false });
-    }
-  });
 })();
