@@ -235,6 +235,9 @@
       window.history.replaceState({}, '', url.toString());
     } catch(e) {}
     applyTranslations(lang);
+    if (typeof window.gonoTrack === 'function') {
+      window.gonoTrack('toggle_language', { targetLang: lang });
+    }
   };
 
   let lastToggleTime = 0;
